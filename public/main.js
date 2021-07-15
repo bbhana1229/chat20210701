@@ -1,4 +1,4 @@
-<script>
+
     const socketio = io();
     const form = document.getElementById("form");
     const input = document.getElementById("msg");
@@ -32,9 +32,22 @@
         }
         event.preventDefault();
     })
+
     socketio.on('message',function(msg){
+      displayMessage(msg);
+    });
+
+    //参加時に過去のメッセージを受け取る
+    socketio.on('signin',function(msgs){
+      for(let I=0;i<msgs.length;i++){
+        const msg = msgs[i];
+        displayMessage(msg);
+      }
+    })
+
+    function displayMessage(msg){
       const li = document.createElement("li");
       li.append(msg.msg + '(' + msg.nameForm)
       chats.append(li);
-    });
-  </script>
+    }
+      
